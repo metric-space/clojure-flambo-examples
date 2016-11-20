@@ -1,6 +1,6 @@
 # clojure-flambo-examples
 
-Apache Spark examples worked out in Clojure using the (Flamo)[https://github.com/yieldbot/flambo] DSL
+Apache Spark examples worked out in Clojure using the [Flamo](https://github.com/yieldbot/flambo) DSL
 
 ## Work done so far
 - The monte carlo approximation for pi is the only thing worked out so far
