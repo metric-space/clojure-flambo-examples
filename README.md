@@ -1,14 +1,15 @@
 # clojure-flambo-examples
 
-A Clojure library designed to ... well, that part is up to you.
+Apache Spark examples worked out in Clojure using the (Flamo)[https://github.com/yieldbot/flambo] DSL
 
-## Usage
+## Work done so far
+- The monte carlo approximation for pi is the only thing worked out so far
 
-FIXME
+Stay tuned for more
 
 ## License
 
-Copyright © 2016 FIXME
+Use away to your heart's content. I am not to be held accountable for anything related to your usage
+of the code nor your interpretation of the examples and the knowledge contained within.
 
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+
