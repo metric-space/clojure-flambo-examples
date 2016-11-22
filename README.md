@@ -4,6 +4,7 @@ Apache Spark examples worked out in Clojure using the [Flamo](https://github.com
 
 ## Work done so far
 - The monte carlo approximation for pi is the only thing worked out so far
+- K-means (in progress)
 
 Stay tuned for more
 
