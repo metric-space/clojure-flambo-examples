@@ -15,37 +15,41 @@
 
 (defn closest-point [point centers-collection]
   (->> centers-collection
-       (vector (range))
+       (map vector (range))
        (map #(-> [(first %), (c/distance point (second %))]))
        (sort-by second)
-       #(get-in % [0 0])))
+       first
+       first))
 
 (defn calculate-new-centroids
   [data kpoints]
-  (-> data
-      (f/map-to-pair (f/fn [point]
-                       (ft/tuple (closest-point point kpoints) [point 1])))
-      (f/reduce-by-key (f/fn [x y]
-                         [(apply c/add (map first [x y]))
-                          (apply + (map second [x y]))]))
-      (f/map-values (f/fn [value] (c/scale (first value) (/ 1 (second value)))))
-      (f/sort)
-      (f/collect)))
+  (let [wrapped-points
+        (-> data
+            (f/map-to-pair (f/fn [point]
+                             (let [cpoint (closest-point point kpoints)]
+                               (ft/tuple cpoint [point 1]))))
+            (f/reduce-by-key (f/fn [x y]
+                               [(apply c/add (map first [x y]))
+                                (apply + (map second [x y]))]))
+            (f/map-values (f/fn [value]
+                            (c/scale (first value) (/ 1 (second value)))))
+            f/sort-by-key
+            f/collect)]
+    (map (fn [x] (f/untuple x)) wrapped-points)))
 
-
-(defn k-means [text-file-path number-of-clusters converge-dist]
-  (f/with-context context c
-    (let [data (-> (f/text-file context text-file-path)
-                   (f/map parse-text-to-vec)
-                   (f/cache))
-          kpoints (f/sample data false number-of-clusters 42)]
-      (loop [temp-dist 1 points kpoints]
-        (if (> temp-dist converge-dist)
-          (let [processed-points (calculate-new-centroid data kpoints)
-                new-temp-dist (->> (map c/dist kpoints processed-points)
-                                   (apply sum))]
-            (recur new-temp-dist processed-points))
-          (do
-            (println " Final cluster points ")
-            (println kpoints)))))))
+;;(defn k-means [text-file-path number-of-clusters converge-dist]
+;;  (f/with-context context c
+;;    (let [data (-> (f/text-file context text-file-path)
+;;                   (f/map parse-text-to-vec)
+;;                   (f/cache))
+;;          kpoints (f/sample data false number-of-clusters 42)]
+;;      (loop [temp-dist 1 points kpoints]
+;;        (if (> temp-dist converge-dist)
+;;          (let [processed-points (calculate-new-centroid data kpoints)
+;;                new-temp-dist (->> (map c/dist kpoints processed-points)
+;;                                   (apply sum))]
+;;            (recur new-temp-dist processed-points))
+;;          (do
+;;            (println " Final cluster points ")
+;;            (println kpoints)))))))
 
