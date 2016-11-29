@@ -6,5 +6,6 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.apache.spark/spark-core_2.11 "2.0.1"]
                  [yieldbot/flambo "0.8.0"]
-                 [net.mikera/core.matrix "0.57.0"]]
+                 [net.mikera/core.matrix "0.57.0"]
+		 [org.clojure/math.numeric-tower "0.0.4"]]
   :aot [flambo.function])
